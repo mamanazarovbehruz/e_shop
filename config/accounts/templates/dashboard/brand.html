@@ -1,0 +1,59 @@
+{% extends 'dashboard/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Brands</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">PRODUCTS</li>
+          <li class="breadcrumb-item active">Brands</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <div class="tm-product-table-container">
+        {% for msg in messages %}
+          {{msg}}
+        {% endfor %}
+        <form method="get" action="">
+          {% csrf_token %}
+          <table class="table table-hover tm-table-small tm-product-table">
+              <thead>
+                  <tr>
+                      <th scope="col">&nbsp;</th>
+                      <th scope="col">BRAND NAME</th>
+                      <th scope="col">IMAGE</th>
+                      <th scope="col">AUTHOR</th>
+                      <th>
+                          <a href="{% url 'products:brandCreate' %}" class="btn btn-primary btn-block text-uppercase">Add new brand</a>
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for brand in brands %}
+                      <tr>
+                          <th scope="row"><input type="checkbox" name="{{brand.id}}"></th>
+                          <td class="tm-product-name">{{brand.name}}</td>
+                          <td><img src="{{brand.image.url}}" height="40px" width="50px"></td>
+                          <td>{{brand.author}}</td>
+                          <td>
+                          <a href="{% url 'products:brandUpdate' slug=brand.slug %}" class="create-link">UPDATE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <a href="{% url 'products:brandDelete' slug=brand.slug %}" class="create-link">DELETE</a>
+                          </td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <button class="btn btn-primary btn-block text-uppercase"> Delete selected brands</button>
+        </form>
+        </div>
+
+  </main><!-- End #main -->
+    
+
+{% endblock content %}

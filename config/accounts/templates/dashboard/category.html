@@ -1,0 +1,61 @@
+{% extends 'dashboard/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Categories</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">PRODUCTS</li>
+          <li class="breadcrumb-item active">Categories</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <div class="tm-product-table-container">
+        {% for msg in messages %}
+          {{msg}}
+        {% endfor %}
+        <form method="get" action="">
+          {% csrf_token %}
+          <table class="table table-hover tm-table-small tm-product-table">
+              <thead>
+                  <tr>
+                      <th scope="col">&nbsp;</th>
+                      <th scope="col">TITLE</th>
+                      <th scope="col">IMAGE</th>
+                      <th scope="col">AUTHOR</th>
+                      <th scope="col">ACTIVITY</th>
+                      <th>
+                          <a href="{% url 'products:categoryCreate' %}" class="btn btn-primary btn-block text-uppercase">Add new brand</a>
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for category in categorys %}
+                    <tr>
+                        <th scope="row"><input type="checkbox" name="{{category.id}}"></th>
+                        <td class="tm-product-name">{{category.title}}</td>
+                        <td><img src="{{category.image}}" height="40px" width="50px"></td>
+                        <td>{{category.author}}</td>
+                        <td>{{category.is_active}}</td>
+                        <td>
+                        <a href="{% url 'products:categoryUpdate' slug=category.slug %}" class="create-link">UPDATE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <a href="{% url 'products:categoryDelete' slug=category.slug %}" class="create-link">DELETE</a>
+                        </td>
+                    </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <button class="btn btn-primary btn-block text-uppercase"> Delete selected categories</button>
+        </form>
+        </div>
+
+  </main><!-- End #main -->
+    
+
+{% endblock content %}

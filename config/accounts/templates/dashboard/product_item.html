@@ -1,0 +1,63 @@
+{% extends 'dashboard/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>ProductItems</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">PRODUCTS</li>
+          <li class="breadcrumb-item active">ProductItems</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <div class="tm-product-table-container">
+        {% for msg in messages %}
+          {{msg}}
+        {% endfor %}
+        <form method="get" action="">
+          {% csrf_token %}
+          <table class="table table-hover tm-table-small tm-product-table">
+              <thead>
+                  <tr>
+                      <th scope="col">&nbsp;</th>
+                      <th scope="col">TITLE</th>
+                      <th scope="col">PRODUCT</th>
+                      <th scope="col">IN STOCK</th>
+                      <th scope="col">PRICE</th>
+                      <th scope="col">ACTIVITY</th>
+                      <th>
+                          <a href="{% url 'products:productItemCreate' %}" class="btn btn-primary btn-block text-uppercase">Add new productItem</a>
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+                  {% for productItem in productItems %}
+                      <tr>
+                          <th scope="row"><input type="checkbox" name="{{productItem.id}}"></th>
+                          <td class="tm-product-name">{{productItem.title}}</td>
+                          <td>{{productItem.product}}</td>
+                          <td>{{productItem.count_in_stock}}</td>
+                          <td>${{productItem.price}}</td>
+                          <td>{{productItem.is_active}}</td>
+                          <td>
+                          <a href="{% url 'products:productItemUpdate' slug=productItem.slug %}" class="create-link">UPDATE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                          <a href="{% url 'products:productItemDelete' slug=productItem.slug %}" class="create-link">DELETE</a>
+                          </td>
+                      </tr>
+                  {% endfor %}
+              </tbody>
+          </table>
+          <button class="btn btn-primary btn-block text-uppercase"> Delete selected productItems</button>
+        </form>
+      </div>
+
+  </main><!-- End #main -->
+    
+
+{% endblock content %}

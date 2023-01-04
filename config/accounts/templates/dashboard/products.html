@@ -1,0 +1,61 @@
+{% extends 'dashboard/dashboard_base.html' %}
+{% load static %}
+
+{% block content %}
+
+<main id="main" class="main">
+
+    <div class="pagetitle">
+      <h1>Products</h1>
+      <nav>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+          <li class="breadcrumb-item">PRODUCTS</li>
+          <li class="breadcrumb-item active">Products</li>
+        </ol>
+      </nav>
+    </div><!-- End Page Title -->
+
+    <div class="tm-product-table-container">
+        {% for msg in messages %}
+          {{msg}}
+        {% endfor %}
+        <form method="get" action="">
+          {% csrf_token %}
+          <table class="table table-hover tm-table-small tm-product-table">
+              <thead>
+                  <tr>
+                      <th scope="col">&nbsp;</th>
+                      <th scope="col">PRODUCT NAME</th>
+                      <th scope="col">CATEGORY</th>
+                      <th scope="col">IN STOCK</th>
+                      <th scope="col">ACTIVITY</th>
+                      <th>
+                          <a href="{% url 'products:productCreate' %}" class="btn btn-primary btn-block text-uppercase">Add new product</a>
+                      </th>
+                  </tr>
+              </thead>
+              <tbody>
+                {% for product in products %}
+                  <tr>
+                    <th scope="row"><input type="checkbox" name="{{product.id}}"></th>
+                    <td class="tm-product-name">{{product.name}}</td>
+                    <td>{{product.category}}</td>
+                    <td>{{product.product_count}}</td>
+                    <td>{{product.is_active}}</td>
+                    <td>
+                      <a href="{% url 'products:productUpdate' slug=product.slug %}" class="create-link">UPDATE</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                      <a href="{% url 'products:productDelete' slug=product.slug %}" class="create-link">DELETE</a>
+                    </td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+          </table>
+          <button type="submit" class="btn btn-primary btn-block text-uppercase"> Delete checked products</button>
+        </form>
+    </div>
+
+  </main><!-- End #main -->
+    
+
+{% endblock content %}
